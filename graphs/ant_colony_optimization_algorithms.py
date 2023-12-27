@@ -9,11 +9,15 @@ https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms
 https://en.wikipedia.org/wiki/Travelling_salesman_problem
 
 Author: Clark
+
+使用蚁群算法解决旅行商问题
 """
 
 import copy
 import random
 
+# 城市坐标点写法,序号+坐标,这是一个字典,int + list[int]
+# dict[int, list[int]]
 cities = {
     0: [0, 0],
     1: [0, 5],
@@ -33,9 +37,21 @@ def main(
     pheromone_evaporation: float,
     alpha: float,
     beta: float,
-    q: float,  # Pheromone system parameters Q，which is a constant
+    q: float,  # Pheromone system parameters Q，which is a constant,随机数q,是一个常数
 ) -> tuple[list[int], float]:
     """
+
+    所需要的所有参数:
+    cities 城市列表
+    ants_num 蚂蚁数量
+    pheromone_evaporation 信息素衰退系数
+    iterations_num???
+    alpha 距离的重要系数
+    beta 信息素的重要系数
+    q 信息素的全局参数
+    输出为 tuple 元组
+    包含整数列表和浮点数的元组。 类型提示指定元组应包含两个元素，第一个是整数列表，第二个是浮点数。
+    信息素浓度矩阵
     Ant colony algorithm main function
     >>> main(cities=cities, ants_num=10, iterations_num=20,
     ...      pheromone_evaporation=0.7, alpha=1.0, beta=5.0, q=10)
@@ -73,6 +89,7 @@ def main(
     best_path: list[int] = []
     best_distance = float("inf")
     for _ in range(iterations_num):
+        # 空循环的写法
         ants_route = []
         for _ in range(ants_num):
             unvisited_cities = copy.deepcopy(cities)
@@ -102,11 +119,9 @@ def main(
 def distance(city1: list[int], city2: list[int]) -> float:
     """
     Calculate the distance between two coordinate points
+    计算两点距离
+    函数定义的两个变量是city1,city2,类型是list,city1[0]city1[1]代表坐标的两个值
     >>> distance([0, 0], [3, 4] )
-    5.0
-    >>> distance([0, 0], [-3, 4] )
-    5.0
-    >>> distance([0, 0], [-3, -4] )
     5.0
     """
     return (((city1[0] - city2[0]) ** 2) + ((city1[1] - city2[1]) ** 2)) ** 0.5
@@ -123,6 +138,7 @@ def pheromone_update(
 ) -> tuple[list[list[float]], list[int], float]:
     """
     Update pheromones on the route and update the best route
+    信息素浓度的迭代
     >>>
     >>> pheromone_update(pheromone=[[1.0, 1.0], [1.0, 1.0]],
     ...                  cities={0: [0,0], 1: [2,2]}, pheromone_evaporation=0.7,
@@ -144,6 +160,7 @@ def pheromone_update(
       ...
     KeyError: 0
     """
+    # 更新一下信息素浓度矩阵
     for a in range(len(cities)):  # Update the volatilization of pheromone on all routes
         for b in range(len(cities)):
             pheromone[a][b] *= pheromone_evaporation

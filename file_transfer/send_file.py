@@ -1,4 +1,6 @@
 def send_file(filename: str = "mytext.txt", testing: bool = False) -> None:
+    # import可以在函数体中
+    # 利用socket 传输
     import socket
 
     port = 12312  # Reserve a port for your service.
@@ -30,6 +32,6 @@ def send_file(filename: str = "mytext.txt", testing: bool = False) -> None:
     sock.shutdown(1)
     sock.close()
 
-
+# 以下写法就是单独运行这个函数,而不作为函数被调用
 if __name__ == "__main__":
     send_file()
