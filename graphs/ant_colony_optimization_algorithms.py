@@ -139,6 +139,7 @@ def pheromone_update(
     """
     Update pheromones on the route and update the best route
     信息素浓度的迭代
+    ants_route 为所有蚂蚁的路径矩阵
     >>>
     >>> pheromone_update(pheromone=[[1.0, 1.0], [1.0, 1.0]],
     ...                  cities={0: [0,0], 1: [2,2]}, pheromone_evaporation=0.7,
@@ -160,7 +161,7 @@ def pheromone_update(
       ...
     KeyError: 0
     """
-    # 更新一下信息素浓度矩阵
+    # 更新一下信息素浓度矩阵,每个值*衰退系数
     for a in range(len(cities)):  # Update the volatilization of pheromone on all routes
         for b in range(len(cities)):
             pheromone[a][b] *= pheromone_evaporation
@@ -168,6 +169,8 @@ def pheromone_update(
         total_distance = 0.0
         for i in range(len(ant_route) - 1):  # Calculate total distance
             total_distance += distance(cities[ant_route[i]], cities[ant_route[i + 1]])
+            # 计算路径距离
+            # 信息素的变化值
         delta_pheromone = q / total_distance
         for i in range(len(ant_route) - 1):  # Update pheromones
             pheromone[ant_route[i]][ant_route[i + 1]] += delta_pheromone
