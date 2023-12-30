@@ -165,26 +165,31 @@ def pheromone_update(
     for a in range(len(cities)):  # Update the volatilization of pheromone on all routes
         for b in range(len(cities)):
             pheromone[a][b] *= pheromone_evaporation
+
+    # 依据上一轮的路径长度更新
     for ant_route in ants_route:
         total_distance = 0.0
         for i in range(len(ant_route) - 1):  # Calculate total distance
-            total_distance += distance(cities[ant_route[i]], cities[ant_route[i + 1]])
             # 计算路径距离
-            # 信息素的变化值
+            total_distance += distance(cities[ant_route[i]], cities[ant_route[i + 1]])
+        # 信息素的变化值
         delta_pheromone = q / total_distance
-        for i in range(len(ant_route) - 1):  # Update pheromones
+        # Update pheromones
+        # 更新信息素浓度
+        for i in range(len(ant_route) - 1):
             pheromone[ant_route[i]][ant_route[i + 1]] += delta_pheromone
-            pheromone[ant_route[i + 1]][ant_route[i]] = pheromone[ant_route[i]][
-                ant_route[i + 1]
-            ]
+            pheromone[ant_route[i + 1]][ant_route[i]] = pheromone[ant_route[i]][ant_route[i + 1]]
 
+        # 更新最佳结果best_distance
         if total_distance < best_distance:
             best_path = ant_route
             best_distance = total_distance
 
+    #返回的依次为信息素浓度矩阵(坐标为两城市序号,值为浓度),最佳路径,最佳长度
     return pheromone, best_path, best_distance
 
 
+# 选取城市,更新 ant_routes 矩阵
 def city_select(
     pheromone: list[list[float]],
     current_city: dict[int, list[int]],
