@@ -2,7 +2,7 @@
 
 """
 
-A Framework of Back Propagation Neural Network（BP） model
+反向传播神经网络(BP)
 
 Easy to use:
     * add many layers as you want ！！！
@@ -11,16 +11,12 @@ Easy to expand:
     * more activation functions
     * more loss functions
     * more optimization method
-
-Author: Stephen Lee
-Github : https://github.com/RiptideBo
-Date: 2017.11.23
-
 """
 import numpy as np
 from matplotlib import pyplot as plt
 
 
+# sigmoid 层 非线性变换
 def sigmoid(x: np.ndarray) -> np.ndarray:
     return 1 / (1 + np.exp(-x))
 

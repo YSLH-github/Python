@@ -87,6 +87,8 @@ def main(
     pheromone = [[1.0] * cities_num] * cities_num
 
     best_path: list[int] = []
+
+    # 定义一个float值 默认为inf
     best_distance = float("inf")
     for _ in range(iterations_num):
         # 空循环的写法

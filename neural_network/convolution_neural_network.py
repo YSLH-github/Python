@@ -1,16 +1,8 @@
 """
      - - - - - -- - - - - - - - - - - - - - - - - - - - - - -
-    Name - - CNN - Convolution Neural Network For Photo Recognizing
-    Goal - - Recognize Handing Writing Word Photo
-    Detail: Total 5 layers neural network
-            * Convolution layer
-            * Pooling layer
-            * Input layer layer of BP
-            * Hidden layer of BP
-            * Output layer of BP
-    Author: Stephen Lee
-    Github: 245885195@qq.com
-    Date: 2017.9.20
+    CNN神经网络用于图像识别
+    识别手写数字
+    共有5层网络:卷积层,池化层,输入层,隐藏层,输出层
     - - - - - -- - - - - - - - - - - - - - - - - - - - - - -
 """
 import pickle
@@ -18,19 +10,19 @@ import pickle
 import numpy as np
 from matplotlib import pyplot as plt
 
-
+# 首先定义一个CNN类
 class CNN:
     def __init__(
         self, conv1_get, size_p1, bp_num1, bp_num2, bp_num3, rate_w=0.2, rate_t=0.2
     ):
         """
         :param conv1_get: [a,c,d], size, number, step of convolution kernel
-        :param size_p1: pooling size
+        :param size_p1: pooling size 池化层规格
         :param bp_num1: units number of flatten layer
         :param bp_num2: units number of hidden layer
         :param bp_num3: units number of output layer
-        :param rate_w: rate of weight learning
-        :param rate_t: rate of threshold learning
+        :param rate_w: rate of weight learning 权重学习率
+        :param rate_t: rate of threshold learning 阈值学习率
         """
         self.num_bp1 = bp_num1
         self.num_bp2 = bp_num2
@@ -50,8 +42,9 @@ class CNN:
         self.thre_bp2 = -2 * np.random.rand(self.num_bp2) + 1
         self.thre_bp3 = -2 * np.random.rand(self.num_bp3) + 1
 
+    # 类中定义函数
     def save_model(self, save_path):
-        # save model dict with pickle
+        # 将模型的各种参数以字典形式,使用pickle方法保存,输入参数为保存的路径
         model_dic = {
             "num_bp1": self.num_bp1,
             "num_bp2": self.num_bp2,
@@ -68,6 +61,8 @@ class CNN:
             "thre_bp2": self.thre_bp2,
             "thre_bp3": self.thre_bp3,
         }
+
+        # pickle 方法保存dic数据
         with open(save_path, "wb") as f:
             pickle.dump(model_dic, f)
 
@@ -77,8 +72,9 @@ class CNN:
     def read_model(cls, model_path):
         # read saved model
         with open(model_path, "rb") as f:
-            model_dic = pickle.load(f)  # noqa: S301
+            model_dic = pickle.load(f)
 
+        # dic格式用.get函数取得参数
         conv_get = model_dic.get("conv1")
         conv_get.append(model_dic.get("step_conv1"))
         size_p1 = model_dic.get("size_pooling1")
