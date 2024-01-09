@@ -12,6 +12,7 @@ Easy to expand:
     * more loss functions
     * more optimization method
 """
+import
 import numpy as np
 from matplotlib import pyplot as plt
 
